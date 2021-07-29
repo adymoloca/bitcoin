@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Copyright (c) 2016-2020 The Bitcoin Core developers
+# Copyright (c) Flo Developers 2013-2021
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,7 +37,7 @@ then
 fi
 
 # The autodetected version git tag can screw up manpage output a little bit
-read -r -a BTCVER <<< "$($BITCOINCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }')"
+read -r -a FLOVER <<< "$($BITCOINCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }')"
 
 # Create a footer file with copyright content.
 # This gets autodetected fine for bitcoind if --version-string is not set,
@@ -46,8 +47,8 @@ $BITCOIND --version | sed -n '1!p' >> footer.h2m
 
 for cmd in $BITCOIND $BITCOINCLI $BITCOINTX $WALLET_TOOL $BITCOINUTIL $BITCOINQT; do
   cmdname="${cmd##*/}"
-  help2man -N --version-string=${BTCVER[0]} --include=footer.h2m -o ${MANDIR}/${cmdname}.1 ${cmd}
-  sed -i "s/\\\-${BTCVER[1]}//g" ${MANDIR}/${cmdname}.1
+  help2man -N --version-string=${FLOVER[0]} --include=footer.h2m -o ${MANDIR}/${cmdname}.1 ${cmd}
+  sed -i "s/\\\-${FLOVER[1]}//g" ${MANDIR}/${cmdname}.1
 done
 
 rm -f footer.h2m

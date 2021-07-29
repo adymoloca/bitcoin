@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2020 The Bitcoin Core developers
+# Copyright (c) Flo Developers 2013-2021
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test coinstatsindex across nodes.
@@ -155,7 +156,7 @@ class CoinStatsIndexTest(BitcoinTestFramework):
         signed_tx1 = self.nodes[0].signrawtransactionwithwallet(funded_tx1['hex'])
         tx1_txid = self.nodes[0].sendrawtransaction(signed_tx1['hex'])
 
-        # Find the right position of the 21 BTC output
+        # Find the right position of the 21 FLO output
         tx1_final = self.nodes[0].gettransaction(tx1_txid)
         for output in tx1_final['details']:
             if output['amount'] == Decimal('21.00000000') and output['category'] == 'receive':

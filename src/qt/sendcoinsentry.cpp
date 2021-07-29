@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -110,7 +111,7 @@ void SendCoinsEntry::clear()
     ui->memoTextLabel_s->clear();
     ui->payAmount_s->clear();
 
-    // update the display unit, to not use the default ("BTC")
+    // update the display unit, to not use the default ("FLO")
     updateDisplayUnit();
 }
 
