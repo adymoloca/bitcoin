@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2020 The Bitcoin Core developers
+# Copyright (c) Flo Developers 2013-2021
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Base class for RPC testing."""
@@ -660,6 +661,12 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
             timeout,
             "".join("\n  {!r}".format(m) for m in pool),
         ))
+    
+    def join_network_no_sync(self):
+        """
+        Join the (previously split) network halves together. Do not wait sync.
+        """
+        self.connect_nodes(self.nodes, 1, 2)
 
     def sync_all(self, nodes=None):
         self.sync_blocks(nodes)
