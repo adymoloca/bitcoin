@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2020 The Bitcoin Core developers
+// Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -258,6 +259,8 @@ void TxToUniv(const CTransaction& tx, const uint256& hashBlock, bool include_add
         }
     }
     entry.pushKV("vout", vout);
+
+    entry.pushKV("floData", tx.strFloData);
 
     if (calculate_fee) {
         const CAmount fee = amt_total_in - amt_total_out;

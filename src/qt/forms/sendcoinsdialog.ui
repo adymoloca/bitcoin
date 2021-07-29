@@ -629,6 +629,20 @@
     </widget>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="floDataLabel">
+       <property name="text">
+        <string>FLO Data: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="floData"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QFrame" name="frameFee">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">

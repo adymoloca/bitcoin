@@ -1,5 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
+// Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -141,6 +142,7 @@ static RPCHelpMan getrawtransaction()
                                      }},
                                  }},
                              }},
+                             {RPCResult::Type::STR, "floData", /* optional */ true, "FLO data field"},
                              {RPCResult::Type::STR_HEX, "blockhash", "the block hash"},
                              {RPCResult::Type::NUM, "confirmations", "The confirmations"},
                              {RPCResult::Type::NUM_TIME, "blocktime", "The block time expressed in " + UNIX_EPOCH_TIME},
@@ -411,6 +413,7 @@ static RPCHelpMan createrawtransaction()
                     {"locktime", RPCArg::Type::NUM, RPCArg::Default{0}, "Raw locktime. Non-0 value also locktime-activates inputs"},
                     {"replaceable", RPCArg::Type::BOOL, RPCArg::Default{false}, "Marks this transaction as BIP125-replaceable.\n"
             "                             Allows this transaction to be replaced by a transaction with higher fees. If provided, it is an error if explicit sequence numbers are incompatible."},
+                    {"floData", RPCArg::Type::STR, RPCArg::Default{""}, "Transaction floData"},
                 },
                 RPCResult{
                     RPCResult::Type::STR_HEX, "transaction", "hex string of the transaction"
@@ -432,6 +435,16 @@ static RPCHelpMan createrawtransaction()
     );
 
     bool rbf = false;
+
+    rawTx.strFloData = "";
+    if (request.params.size() > 4 && !request.params[4].isNull()) {
+        rawTx.strFloData = request.params[4].get_str();
+    }
+
+    if (rawTx.strFloData.length() > CTransaction::MAX_FLO_DATA_SIZE) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, Flo Data too large");
+    }
+
     if (!request.params[3].isNull()) {
         rbf = request.params[3].isTrue();
     }
@@ -504,6 +517,7 @@ static RPCHelpMan decoderawtransaction()
                                 }},
                             }},
                         }},
+                        {RPCResult::Type::STR, "floData", /* optional */ true, "FLO data field"},
                     }
                 },
                 RPCExamples{
@@ -667,6 +681,21 @@ static RPCHelpMan combinerawtransaction()
         }
     }
 
+    bool floDataExists = false;
+    std::string strFloData = "";
+    for (unsigned int idx = 0; idx < txs.size(); idx++) {
+        if (!DecodeHexTx(txVariants[idx], txs[idx].get_str(), true)) {
+            throw JSONRPCError(RPC_DESERIALIZATION_ERROR, strprintf("TX decode failed for tx %d", idx));
+        }
+        if (txVariants[idx].strFloData != "") {
+            if (floDataExists) {
+                throw JSONRPCError(RPC_VERIFY_ERROR, "Only one transaction floData is allowed");
+            }
+            floDataExists = true;
+            strFloData = txVariants[idx].strFloData;
+        }
+    }
+
     if (txVariants.empty()) {
         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Missing transactions");
     }
@@ -674,6 +703,10 @@ static RPCHelpMan combinerawtransaction()
     // mergedTx will end up with all the signatures; it
     // starts as a clone of the rawtx:
     CMutableTransaction mergedTx(txVariants[0]);
+    mergedTx.strFloData = strFloData;
+    if (mergedTx.strFloData.length() > CTransaction::MAX_FLO_DATA_SIZE) {
+        throw JSONRPCError(RPC_VERIFY_ERROR, "Flo Data too large");
+    }
 
     // Fetch previous transactions (inputs):
     CCoinsView viewDummy;
@@ -790,6 +823,10 @@ static RPCHelpMan signrawtransactionwithkey()
     CMutableTransaction mtx;
     if (!DecodeHexTx(mtx, request.params[0].get_str())) {
         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "TX decode failed. Make sure the tx has at least one input.");
+    }
+
+    if (mtx.strFloData.length() > CTransaction::MAX_FLO_DATA_SIZE) {
+        throw JSONRPCError(RPC_TRANSACTION_ERROR, "Flo Data too large");
     }
 
     FillableSigningProvider keystore;
@@ -1479,6 +1516,7 @@ static RPCHelpMan createpsbt()
                     {"locktime", RPCArg::Type::NUM, RPCArg::Default{0}, "Raw locktime. Non-0 value also locktime-activates inputs"},
                     {"replaceable", RPCArg::Type::BOOL, RPCArg::Default{false}, "Marks this transaction as BIP125 replaceable.\n"
                             "                             Allows this transaction to be replaced by a transaction with higher fees. If provided, it is an error if explicit sequence numbers are incompatible."},
+                    {"floData", RPCArg::Type::STR, RPCArg::Default{""}, "Transaction floData"},
                 },
                 RPCResult{
                     RPCResult::Type::STR, "", "The resulting raw transaction (base64-encoded string)"

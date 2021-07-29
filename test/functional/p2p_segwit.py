@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2016-2020 The Bitcoin Core developers
+# Copyright (c) Flo Developers 2013-2021
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test segwit transactions and blocks on P2P network."""
@@ -1185,6 +1186,10 @@ class SegWitTest(BitcoinTestFramework):
                 if flags & 1:
                     r += self.wit.serialize()
                 r += struct.pack("<I", self.nLockTime)
+                if self.nVersion >= 2:
+                    r += ser_compact_size(len(self.floData))
+                    if len(self.floData) > 0:
+                        r += struct.pack("<s", self.floData)
                 return r
 
         tx2 = BrokenCTransaction()

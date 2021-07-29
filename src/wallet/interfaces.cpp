@@ -1,4 +1,5 @@
 // Copyright (c) 2018-2020 The Bitcoin Core developers
+// Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -236,13 +237,16 @@ public:
         bool sign,
         int& change_pos,
         CAmount& fee,
+        std::string strFloData
         bilingual_str& fail_reason) override
     {
         LOCK(m_wallet->cs_wallet);
         CTransactionRef tx;
+        CMutableTransaction txNew;
+        txNew.strFloData = strFloData;
         FeeCalculation fee_calc_out;
         if (!m_wallet->CreateTransaction(recipients, tx, fee, change_pos,
-                fail_reason, coin_control, fee_calc_out, sign)) {
+                fail_reason, coin_control, fee_calc_out, strFloData, sign)) {
             return {};
         }
         return tx;

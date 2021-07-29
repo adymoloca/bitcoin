@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,15 +11,21 @@
 
 #include <policy/policy.h>
 
-WalletModelTransaction::WalletModelTransaction(const QList<SendCoinsRecipient> &_recipients) :
+WalletModelTransaction::WalletModelTransaction(const QList<SendCoinsRecipient> &_recipients, std::string floData) :
     recipients(_recipients),
-    fee(0)
+    fee(0),
+    strFloData(floData)
 {
 }
 
 QList<SendCoinsRecipient> WalletModelTransaction::getRecipients() const
 {
     return recipients;
+}
+
+std::string WalletModelTransaction::getFloData()
+{
+    return strFloData;
 }
 
 CTransactionRef& WalletModelTransaction::getWtx()

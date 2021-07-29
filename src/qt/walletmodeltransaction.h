@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,7 +23,7 @@ class Node;
 class WalletModelTransaction
 {
 public:
-    explicit WalletModelTransaction(const QList<SendCoinsRecipient> &recipients);
+    explicit WalletModelTransaction(const QList<SendCoinsRecipient> &recipients, std::string floData);
 
     QList<SendCoinsRecipient> getRecipients() const;
 
@@ -33,6 +34,7 @@ public:
 
     void setTransactionFee(const CAmount& newFee);
     CAmount getTransactionFee() const;
+    std::string getFloData();
 
     CAmount getTotalTransactionAmount() const;
 
@@ -42,6 +44,7 @@ private:
     QList<SendCoinsRecipient> recipients;
     CTransactionRef wtx;
     CAmount fee;
+    std::string strFloData;
 };
 
 #endif // BITCOIN_QT_WALLETMODELTRANSACTION_H
