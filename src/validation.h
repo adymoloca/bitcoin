@@ -58,7 +58,6 @@ struct ChainTxData;
 struct DisconnectedBlockTransactions;
 struct PrecomputedTransactionData;
 struct LockPoints;
-struct AssumeutxoData;
 
 /** Default for -minrelaytxfee, minimum relay fee for transactions */
 static const unsigned int DEFAULT_MIN_RELAY_TX_FEE = 1000;
@@ -1052,6 +1051,5 @@ bool LoadMempool(CTxMemPool& pool, CChainState& active_chainstate, FopenFn mocka
  *
  * @returns empty if no assumeutxo configuration exists for the given height.
  */
-const AssumeutxoData* ExpectedAssumeutxo(const int height, const CChainParams& params);
 
 #endif // BITCOIN_VALIDATION_H

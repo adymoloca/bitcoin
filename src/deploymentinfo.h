@@ -18,8 +18,6 @@ struct VBDeploymentInfo {
 
 extern const VBDeploymentInfo VersionBitsDeploymentInfo[Consensus::MAX_VERSION_BITS_DEPLOYMENTS];
 
-std::string DeploymentName(Consensus::BuriedDeployment dep);
-
 inline std::string DeploymentName(Consensus::DeploymentPos pos)
 {
     assert(Consensus::ValidDeployment(pos));

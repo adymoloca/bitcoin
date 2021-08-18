@@ -14,7 +14,7 @@ Developer Notes
         - [Compiling for debugging](#compiling-for-debugging)
         - [Compiling for gprof profiling](#compiling-for-gprof-profiling)
         - [`debug.log`](#debuglog)
-        - [Signet, testnet, and regtest modes](#signet-testnet-and-regtest-modes)
+        - [testnet, and regtest modes](#testnet-and-regtest-modes)
         - [DEBUG_LOCKORDER](#debug_lockorder)
         - [Valgrind suppressions file](#valgrind-suppressions-file)
         - [Compiling for test coverage](#compiling-for-test-coverage)
@@ -264,10 +264,10 @@ on all categories (and give you a very large `debug.log` file).
 The Qt code routes `qDebug()` output to `debug.log` under category "qt": run with `-debug=qt`
 to see it.
 
-### Signet, testnet, and regtest modes
+### Testnet, and regtest modes
 
 If you are testing multi-machine code that needs to operate across the internet,
-you can run with either the `-signet` or the `-testnet` config option to test
+you can run with either the `-testnet` config option to test
 with "play bitcoins" on a test network.
 
 If you are testing something that can run on one machine, run with the

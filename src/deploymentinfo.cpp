@@ -12,21 +12,21 @@ const struct VBDeploymentInfo VersionBitsDeploymentInfo[Consensus::MAX_VERSION_B
         /*.gbt_force =*/ true,
     },
     {
-        /*.name =*/ "taproot",
+        /*.name =*/ "csv",
         /*.gbt_force =*/ true,
     },
+    {
+        /*.name =*/ "segwit",
+        /*.gbt_force =*/ true,
+    }
 };
 
-std::string DeploymentName(Consensus::BuriedDeployment dep)
+std::string DeploymentName(Consensus::DeploymentPos dep)
 {
     assert(ValidDeployment(dep));
     switch (dep) {
-    case Consensus::DEPLOYMENT_HEIGHTINCB:
-        return "bip34";
-    case Consensus::DEPLOYMENT_CLTV:
-        return "bip65";
-    case Consensus::DEPLOYMENT_DERSIG:
-        return "bip66";
+    case Consensus::DEPLOYMENT_TESTDUMMY:
+        return "testdummy";
     case Consensus::DEPLOYMENT_CSV:
         return "csv";
     case Consensus::DEPLOYMENT_SEGWIT:

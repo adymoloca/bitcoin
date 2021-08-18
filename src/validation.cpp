@@ -35,7 +35,6 @@
 #include <script/script.h>
 #include <script/sigcache.h>
 #include <shutdown.h>
-#include <signet.h>
 #include <timedata.h>
 #include <tinyformat.h>
 #include <txdb.h>
@@ -688,8 +687,7 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
     }
 
     // Check for non-standard pay-to-script-hash in inputs
-    const bool taproot_active = DeploymentActiveAfter(m_active_chainstate.m_chain.Tip(), args.m_chainparams.GetConsensus(), Consensus::DEPLOYMENT_TAPROOT);
-    if (fRequireStandard && !AreInputsStandard(tx, m_view, taproot_active)) {
+    if (fRequireStandard && !AreInputsStandard(tx, m_view)) {
         return state.Invalid(TxValidationResult::TX_INPUTS_NOT_STANDARD, "bad-txns-nonstandard-inputs");
     }
 
@@ -1640,11 +1638,6 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex* pindex, const Consens
     // Enforce CHECKSEQUENCEVERIFY (BIP112)
     if (DeploymentActiveAt(*pindex, consensusparams, Consensus::DEPLOYMENT_CSV)) {
         flags |= SCRIPT_VERIFY_CHECKSEQUENCEVERIFY;
-    }
-
-    // Enforce Taproot (BIP340-BIP342)
-    if (DeploymentActiveAt(*pindex, consensusparams, Consensus::DEPLOYMENT_TAPROOT)) {
-        flags |= SCRIPT_VERIFY_TAPROOT;
     }
 
     // Enforce BIP147 NULLDUMMY (activated simultaneously with segwit)
@@ -3034,11 +3027,6 @@ bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensu
     // redundant with the call in AcceptBlockHeader.
     if (!CheckBlockHeader(block, state, consensusParams, fCheckPOW))
         return false;
-
-    // Signet only: check block solution
-    if (consensusParams.signet_blocks && fCheckPOW && !CheckSignetBlockSolution(block, consensusParams)) {
-        return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-signet-blksig", "signet block signature validation failure");
-    }
 
     // Check the merkle root.
     if (fCheckMerkleRoot) {
@@ -4721,18 +4709,6 @@ CChainState& ChainstateManager::InitializeChainstate(
     return *to_modify;
 }
 
-const AssumeutxoData* ExpectedAssumeutxo(
-    const int height, const CChainParams& chainparams)
-{
-    const MapAssumeutxo& valid_assumeutxos_map = chainparams.Assumeutxo();
-    const auto assumeutxo_found = valid_assumeutxos_map.find(height);
-
-    if (assumeutxo_found != valid_assumeutxos_map.end()) {
-        return &assumeutxo_found->second;
-    }
-    return nullptr;
-}
-
 bool ChainstateManager::ActivateSnapshot(
         CAutoFile& coins_file,
         const SnapshotMetadata& metadata,
@@ -4836,15 +4812,12 @@ bool ChainstateManager::PopulateAndValidateSnapshot(
     }
 
     int base_height = snapshot_start_block->nHeight;
-    auto maybe_au_data = ExpectedAssumeutxo(base_height, ::Params());
 
     if (!maybe_au_data) {
         LogPrintf("[snapshot] assumeutxo height in snapshot metadata not recognized " /* Continued */
                   "(%d) - refusing to load snapshot\n", base_height);
         return false;
     }
-
-    const AssumeutxoData& au_data = *maybe_au_data;
 
     COutPoint outpoint;
     Coin coin;
@@ -4953,13 +4926,6 @@ bool ChainstateManager::PopulateAndValidateSnapshot(
 
     if (!GetUTXOStats(snapshot_coinsdb, WITH_LOCK(::cs_main, return std::ref(m_blockman)), stats, breakpoint_fnc)) {
         LogPrintf("[snapshot] failed to generate coins stats\n");
-        return false;
-    }
-
-    // Assert that the deserialized chainstate contents match the expected assumeutxo value.
-    if (AssumeutxoHash{stats.hashSerialized} != au_data.hash_serialized) {
-        LogPrintf("[snapshot] bad snapshot content hash: expected %s, got %s\n",
-            au_data.hash_serialized.ToString(), stats.hashSerialized.ToString());
         return false;
     }
 

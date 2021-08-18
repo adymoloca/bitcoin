@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2020 The Bitcoin Core developers
+// Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -174,7 +175,6 @@ public:
     //!
     //! Note: this value is faked during use of a UTXO snapshot because we don't
     //! have the underlying block data available during snapshot load.
-    //! @sa AssumeutxoData
     //! @sa ActivateSnapshot
     unsigned int nChainTx{0};
 

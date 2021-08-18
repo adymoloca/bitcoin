@@ -9,7 +9,6 @@
 #include <secp256k1.h>
 #include <secp256k1_extrakeys.h>
 #include <secp256k1_recovery.h>
-#include <secp256k1_schnorrsig.h>
 #include <span.h>
 #include <uint256.h>
 
@@ -184,14 +183,6 @@ bool XOnlyPubKey::IsFullyValid() const
 {
     secp256k1_xonly_pubkey pubkey;
     return secp256k1_xonly_pubkey_parse(secp256k1_context_verify, &pubkey, m_keydata.data());
-}
-
-bool XOnlyPubKey::VerifySchnorr(const uint256& msg, Span<const unsigned char> sigbytes) const
-{
-    assert(sigbytes.size() == 64);
-    secp256k1_xonly_pubkey pubkey;
-    if (!secp256k1_xonly_pubkey_parse(secp256k1_context_verify, &pubkey, m_keydata.data())) return false;
-    return secp256k1_schnorrsig_verify(secp256k1_context_verify, sigbytes.data(), msg.begin(), &pubkey);
 }
 
 static const CHashWriter HASHER_TAPTWEAK = TaggedHash("TapTweak");

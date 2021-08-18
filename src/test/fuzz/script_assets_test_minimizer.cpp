@@ -95,7 +95,6 @@ const std::map<std::string, unsigned int> FLAG_NAMES = {
     {std::string("CHECKLOCKTIMEVERIFY"), (unsigned int)SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY},
     {std::string("CHECKSEQUENCEVERIFY"), (unsigned int)SCRIPT_VERIFY_CHECKSEQUENCEVERIFY},
     {std::string("WITNESS"), (unsigned int)SCRIPT_VERIFY_WITNESS},
-    {std::string("TAPROOT"), (unsigned int)SCRIPT_VERIFY_TAPROOT},
 };
 
 std::vector<unsigned int> AllFlags()
@@ -110,12 +109,9 @@ std::vector<unsigned int> AllFlags()
         if (i & 8) flag |= SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY;
         if (i & 16) flag |= SCRIPT_VERIFY_CHECKSEQUENCEVERIFY;
         if (i & 32) flag |= SCRIPT_VERIFY_WITNESS;
-        if (i & 64) flag |= SCRIPT_VERIFY_TAPROOT;
 
         // SCRIPT_VERIFY_WITNESS requires SCRIPT_VERIFY_P2SH
         if (flag & SCRIPT_VERIFY_WITNESS && !(flag & SCRIPT_VERIFY_P2SH)) continue;
-        // SCRIPT_VERIFY_TAPROOT requires SCRIPT_VERIFY_WITNESS
-        if (flag & SCRIPT_VERIFY_TAPROOT && !(flag & SCRIPT_VERIFY_WITNESS)) continue;
 
         ret.push_back(flag);
     }

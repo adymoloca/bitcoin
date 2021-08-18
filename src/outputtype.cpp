@@ -118,9 +118,5 @@ std::optional<OutputType> OutputTypeFromDestination(const CTxDestination& dest) 
         std::holds_alternative<WitnessV0ScriptHash>(dest)) {
         return OutputType::BECH32;
     }
-    if (std::holds_alternative<WitnessV1Taproot>(dest) ||
-        std::holds_alternative<WitnessUnknown>(dest)) {
-        return OutputType::BECH32M;
-    }
     return std::nullopt;
 }

@@ -17,10 +17,9 @@ static const struct {
     const int iconColorHueShift;
     const int iconColorSaturationReduction;
 } network_styles[] = {
-    {"main", QAPP_APP_NAME_DEFAULT, 0, 0},
-    {"test", QAPP_APP_NAME_TESTNET, 70, 30},
-    {"signet", QAPP_APP_NAME_SIGNET, 35, 15},
-    {"regtest", QAPP_APP_NAME_REGTEST, 160, 30},
+    {"main", QAPP_APP_NAME_DEFAULT, 0, 0, ""},
+    {"test", QAPP_APP_NAME_TESTNET, 0, 0, QT_TRANSLATE_NOOP("SplashScreen", "[testnet]")},
+    {"regtest", QAPP_APP_NAME_REGTEST, 60, 1, "[regtest]"},
 };
 
 // titleAddText needs to be const char* for tr()

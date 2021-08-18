@@ -34,11 +34,6 @@ public:
         return m_fuzzed_data_provider.ConsumeBool();
     }
 
-    bool CheckSchnorrSignature(Span<const unsigned char> sig, Span<const unsigned char> pubkey, SigVersion sigversion, const ScriptExecutionData& execdata, ScriptError* serror = nullptr) const override
-    {
-        return m_fuzzed_data_provider.ConsumeBool();
-    }
-
     bool CheckLockTime(const CScriptNum& nLockTime) const override
     {
         return m_fuzzed_data_provider.ConsumeBool();

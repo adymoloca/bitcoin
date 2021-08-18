@@ -102,13 +102,6 @@ P2P and network changes
   filters to peers on the network when enabled using
   `-blockfilterindex=1 -peerblockfilters=1`. (#16442)
 
-- This release adds support for signets
-  ([BIP325](https://github.com/bitcoin/bips/blob/master/bip-0325.mediawiki)) in
-  addition to the existing mainnet, testnet, and regtest networks. Signets are
-  centrally-controlled test networks, allowing them to be more predictable
-  test environments than the older testnet. One public signet is maintained, and
-  selectable using `-signet`. It is also possible to create personal signets.
-  (#18267).
 
 - This release implements
   [BIP339](https://github.com/bitcoin/bips/blob/master/bip-0339.mediawiki)

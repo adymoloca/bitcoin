@@ -750,32 +750,32 @@ BOOST_AUTO_TEST_CASE(MempoolAncestryTests)
 
     /* Ancestors represented more than once ("diamond") */
     //
-    // [ta].0 <- [tb].0 -----<------- [td].0
+    // [ta].0 <- [tflo].0 -----<------- [td].0
     //            |                    |
     //            \---1 <- [tc].0 --<--/
     //
-    CTransactionRef ta, tb, tc, td;
+    CTransactionRef ta, tflo, tc, td;
     ta = make_tx(/* output_values */ {10 * COIN});
-    tb = make_tx(/* output_values */ {5 * COIN, 3 * COIN}, /* inputs */  {ta});
-    tc = make_tx(/* output_values */ {2 * COIN}, /* inputs */ {tb}, /* input_indices */ {1});
-    td = make_tx(/* output_values */ {6 * COIN}, /* inputs */ {tb, tc}, /* input_indices */ {0, 0});
+    tflo = make_tx(/* output_values */ {5 * COIN, 3 * COIN}, /* inputs */  {ta});
+    tc = make_tx(/* output_values */ {2 * COIN}, /* inputs */ {tflo}, /* input_indices */ {1});
+    td = make_tx(/* output_values */ {6 * COIN}, /* inputs */ {tflo, tc}, /* input_indices */ {0, 0});
     pool.clear();
     pool.addUnchecked(entry.Fee(10000LL).FromTx(ta));
-    pool.addUnchecked(entry.Fee(10000LL).FromTx(tb));
+    pool.addUnchecked(entry.Fee(10000LL).FromTx(tflo));
     pool.addUnchecked(entry.Fee(10000LL).FromTx(tc));
     pool.addUnchecked(entry.Fee(10000LL).FromTx(td));
 
     // Ancestors / descendants should be:
     // transaction  ancestors           descendants
     // ============ =================== ===========
-    // ta           1 (ta               4 (ta,tb,tc,td)
-    // tb           2 (ta,tb)           4 (ta,tb,tc,td)
-    // tc           3 (ta,tb,tc)        4 (ta,tb,tc,td)
-    // td           4 (ta,tb,tc,td)     4 (ta,tb,tc,td)
+    // ta           1 (ta               4 (ta,tflo,tc,td)
+    // tflo           2 (ta,tflo)           4 (ta,tflo,tc,td)
+    // tc           3 (ta,tflo,tc)        4 (ta,tflo,tc,td)
+    // td           4 (ta,tflo,tc,td)     4 (ta,tflo,tc,td)
     pool.GetTransactionAncestry(ta->GetHash(), ancestors, descendants);
     BOOST_CHECK_EQUAL(ancestors, 1ULL);
     BOOST_CHECK_EQUAL(descendants, 4ULL);
-    pool.GetTransactionAncestry(tb->GetHash(), ancestors, descendants);
+    pool.GetTransactionAncestry(tflo->GetHash(), ancestors, descendants);
     BOOST_CHECK_EQUAL(ancestors, 2ULL);
     BOOST_CHECK_EQUAL(descendants, 4ULL);
     pool.GetTransactionAncestry(tc->GetHash(), ancestors, descendants);

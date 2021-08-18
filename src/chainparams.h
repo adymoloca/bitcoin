@@ -33,45 +33,12 @@ typedef std::map<int, uint256> MapCheckpoints;
 
 struct CCheckpointData {
     MapCheckpoints mapCheckpoints;
-
-    // int GetHeight() const {
-    //     const auto& final_checkpoint = mapCheckpoints.rbegin();
-    //     return final_checkpoint->first /* height */;
-    // }
 };
 
-// struct AssumeutxoHash : public BaseHash<uint256> {
-//     explicit AssumeutxoHash(const uint256& hash) : BaseHash(hash) {}
-// };
-
-// /**
-//  * Holds configuration for use during UTXO snapshot load and validation. The contents
-//  * here are security critical, since they dictate which UTXO snapshots are recognized
-//  * as valid.
-//  */
-// struct AssumeutxoData {
-//     //! The expected hash of the deserialized UTXO set.
-//     const AssumeutxoHash hash_serialized;
-
-//     //! Used to populate the nChainTx value, which is used during BlockManager::LoadBlockIndex().
-//     //!
-//     //! We need to hardcode the value here because this is computed cumulatively using block data,
-//     //! which we do not necessarily have at the time of snapshot load.
-//     const unsigned int nChainTx;
-// };
-
-// using MapAssumeutxo = std::map<int, const AssumeutxoData>;
-
-/**
- * Holds various statistics on transactions within a chain. Used to estimate
- * verification progress during chain sync.
- *
- * See also: CChainParams::TxData, GuessVerificationProgress.
- */
 struct ChainTxData {
-    int64_t nTime;    //!< UNIX timestamp of last known number of transactions
-    int64_t nTxCount; //!< total number of transactions between genesis and that timestamp
-    double dTxRate;   //!< estimated number of transactions per second after that timestamp
+    int64_t nTime;
+    int64_t nTxCount;
+    double dTxRate;
 };
 
 /**
@@ -110,6 +77,7 @@ public:
     std::string NetworkIDString() const { return strNetworkID; }
     const std::vector<CDNSSeedData>& DNSSeeds() const { return vSeeds; }
     const std::vector<unsigned char>& Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
+    const std::string& Bech32HRP() const { return bech32_hrp; }
     const std::vector<SeedSpec6>& FixedSeeds() const { return vFixedSeeds; }
     const CCheckpointData& Checkpoints() const { return checkpointData; }
     const ChainTxData& TxData() const { return chainTxData; }
@@ -124,6 +92,7 @@ protected:
     int nNlrLimit;
     std::vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];
+    std::string bech32_hrp;
     std::string strNetworkID;
     CBlock genesis;
     std::vector<SeedSpec6> vFixedSeeds;
@@ -139,7 +108,7 @@ protected:
  * @returns a CChainParams* of the chosen chain.
  * @throws a std::runtime_error if the chain is not supported.
  */
-std::unique_ptr<CChainParams> CreateChainParams(const std::string& chain);
+std::unique_ptr<const CChainParams> CreateChainParams(const ArgsManager& args, const std::string& chain);
 
 /**
  * Return the currently selected parameters. This won't change after app
@@ -148,7 +117,7 @@ std::unique_ptr<CChainParams> CreateChainParams(const std::string& chain);
 const CChainParams &Params();
 
 /**
- * Sets the params returned by Params() to those for the given BIP70 chain name.
+ * Sets the params returned by Params() to those for the given chain name.
  * @throws std::runtime_error when the chain is not supported.
  */
 void SelectParams(const std::string& chain);

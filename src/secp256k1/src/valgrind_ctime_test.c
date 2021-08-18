@@ -23,10 +23,6 @@
 # include "include/secp256k1_extrakeys.h"
 #endif
 
-#ifdef ENABLE_MODULE_SCHNORRSIG
-#include "include/secp256k1_schnorrsig.h"
-#endif
-
 void run_tests(secp256k1_context *ctx, unsigned char *key);
 
 int main(void) {
@@ -157,16 +153,6 @@ void run_tests(secp256k1_context *ctx, unsigned char *key) {
     VALGRIND_MAKE_MEM_UNDEFINED(key, 32);
     VALGRIND_MAKE_MEM_UNDEFINED(&keypair, sizeof(keypair));
     ret = secp256k1_keypair_sec(ctx, key, &keypair);
-    VALGRIND_MAKE_MEM_DEFINED(&ret, sizeof(ret));
-    CHECK(ret == 1);
-#endif
-
-#ifdef ENABLE_MODULE_SCHNORRSIG
-    VALGRIND_MAKE_MEM_UNDEFINED(key, 32);
-    ret = secp256k1_keypair_create(ctx, &keypair, key);
-    VALGRIND_MAKE_MEM_DEFINED(&ret, sizeof(ret));
-    CHECK(ret == 1);
-    ret = secp256k1_schnorrsig_sign(ctx, sig, msg, &keypair, NULL, NULL);
     VALGRIND_MAKE_MEM_DEFINED(&ret, sizeof(ret));
     CHECK(ret == 1);
 #endif

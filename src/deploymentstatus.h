@@ -14,7 +14,7 @@
 extern VersionBitsCache g_versionbitscache;
 
 /** Determine if a deployment is active for the next block */
-inline bool DeploymentActiveAfter(const CBlockIndex* pindexPrev, const Consensus::Params& params, Consensus::BuriedDeployment dep)
+inline bool DeploymentActiveAfter(const CBlockIndex* pindexPrev, const Consensus::Params& params, Consensus::DeploymentPos dep)
 {
     assert(Consensus::ValidDeployment(dep));
     return (pindexPrev == nullptr ? 0 : pindexPrev->nHeight + 1) >= params.DeploymentHeight(dep);
@@ -27,7 +27,7 @@ inline bool DeploymentActiveAfter(const CBlockIndex* pindexPrev, const Consensus
 }
 
 /** Determine if a deployment is active for this block */
-inline bool DeploymentActiveAt(const CBlockIndex& index, const Consensus::Params& params, Consensus::BuriedDeployment dep)
+inline bool DeploymentActiveAt(const CBlockIndex& index, const Consensus::Params& params, Consensus::DeploymentPos dep)
 {
     assert(Consensus::ValidDeployment(dep));
     return index.nHeight >= params.DeploymentHeight(dep);
@@ -40,7 +40,7 @@ inline bool DeploymentActiveAt(const CBlockIndex& index, const Consensus::Params
 }
 
 /** Determine if a deployment is enabled (can ever be active) */
-inline bool DeploymentEnabled(const Consensus::Params& params, Consensus::BuriedDeployment dep)
+inline bool DeploymentEnabled(const Consensus::Params& params, Consensus::DeploymentPos dep)
 {
     assert(Consensus::ValidDeployment(dep));
     return params.DeploymentHeight(dep) != std::numeric_limits<int>::max();

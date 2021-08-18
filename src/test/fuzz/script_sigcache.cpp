@@ -38,9 +38,6 @@ FUZZ_TARGET_INIT(script_sigcache, initialize_script_sigcache)
     if (fuzzed_data_provider.ConsumeBool()) {
         const auto random_bytes = fuzzed_data_provider.ConsumeBytes<unsigned char>(64);
         const XOnlyPubKey pub_key(ConsumeUInt256(fuzzed_data_provider));
-        if (random_bytes.size() == 64) {
-            (void)caching_transaction_signature_checker.VerifySchnorrSignature(random_bytes, pub_key, ConsumeUInt256(fuzzed_data_provider));
-        }
     } else {
         const auto random_bytes = ConsumeRandomLengthByteVector(fuzzed_data_provider);
         const auto pub_key = ConsumeDeserializable<CPubKey>(fuzzed_data_provider);

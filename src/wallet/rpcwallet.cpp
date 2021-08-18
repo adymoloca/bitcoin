@@ -3573,7 +3573,7 @@ static RPCHelpMan bumpfee_helper(std::string method_name)
     } else {
         PartiallySignedTransaction psbtx(mtx);
         bool complete = false;
-        const TransactionError err = pwallet->FillPSBT(psbtx, complete, SIGHASH_DEFAULT, false /* sign */, true /* bip32derivs */);
+        const TransactionError err = pwallet->FillPSBT(psbtx, complete, nHashType, false /* sign */, true /* bip32derivs */);
         CHECK_NONFATAL(err == TransactionError::OK);
         CHECK_NONFATAL(!complete);
         CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
@@ -3766,7 +3766,6 @@ public:
         return obj;
     }
 
-    UniValue operator()(const WitnessV1Taproot& id) const { return UniValue(UniValue::VOBJ); }
     UniValue operator()(const WitnessUnknown& id) const { return UniValue(UniValue::VOBJ); }
 };
 
@@ -4211,8 +4210,8 @@ static RPCHelpMan send()
             // First fill transaction with our data without signing,
             // so external signers are not asked sign more than once.
             bool complete;
-            pwallet->FillPSBT(psbtx, complete, SIGHASH_DEFAULT, false, true);
-            const TransactionError err = pwallet->FillPSBT(psbtx, complete, SIGHASH_DEFAULT, true, false);
+            pwallet->FillPSBT(psbtx, complete, nHashType, false, true);
+            const TransactionError err = pwallet->FillPSBT(psbtx, complete, nHashType, true, false);
             if (err != TransactionError::OK) {
                 throw JSONRPCTransactionError(err);
             }
