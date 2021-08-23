@@ -1374,8 +1374,6 @@ template <class T>
 uint256 GetPrevoutsSHA256(const T& txTo)
 {
     CHashWriter ss(SER_GETHASH, 0);
-    nHashType &= ~SIGHASH_OMIT_FLO_DATA; // clear SIGHASH_OMIT_FLO_DATA - Flag is only used for 0.10.4 compat
-                                           // it's used internally but must not actually appear in the result
 
     for (const auto& txin : txTo.vin) {
         ss << txin.prevout;
@@ -1662,6 +1660,8 @@ uint256 SignatureHash(const CScript& scriptCode, const T& txTo, unsigned int nIn
 
     // Serialize and hash
     CHashWriter ss(SER_GETHASH, 0);
+    nHashType &= ~SIGHASH_OMIT_FLO_DATA; // clear SIGHASH_OMIT_FLO_DATA - Flag is only used for 0.10.4 compat
+                                           // it's used internally but must not actually appear in the result
     ss << txTmp << nHashType;
     return ss.GetHash();
 }
