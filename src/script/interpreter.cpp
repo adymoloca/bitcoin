@@ -1288,7 +1288,7 @@ public:
         txTo(txToIn), scriptCode(scriptCodeIn), nIn(nInIn),
         fAnyoneCanPay(!!(nHashTypeIn & SIGHASH_ANYONECANPAY)),
         fHashSingle((nHashTypeIn & 0x1f) == SIGHASH_SINGLE),
-        fHashNone((nHashTypeIn & 0x1f) == SIGHASH_NONE) {}
+        fHashNone((nHashTypeIn & 0x1f) == SIGHASH_NONE),
         fOmitFloData(!!(nHashTypeIn & SIGHASH_OMIT_FLO_DATA)){}
 
     /** Serialize the passed scriptCode, skipping OP_CODESEPARATORs */
@@ -1708,8 +1708,9 @@ bool GenericTransactionSignatureChecker<T>::CheckECDSASignature(const std::vecto
 
         sighash = SignatureHash(scriptCode, *txTo, nIn, nHashType, amount, sigversion, this->txdata);
 
-        if (!VerifySignature(vchSig2, pubkey, sighash))
+        if (!VerifyECDSASignature(vchSig2, pubkey, sighash))
             return false;
+    }
 
     return true;
 }

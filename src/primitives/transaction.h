@@ -254,9 +254,9 @@ inline void SerializeTransaction(const TxType& tx, Stream& s) {
         }
     }
     s << tx.nLockTime;
-    if (tx.nVersion >= 2) {
-        s >> tx.strFloData;
-    }
+    // if (tx.nVersion >= 2) {
+    //     s >> tx.strFloData;
+    // }s
 }
 
 
@@ -268,6 +268,8 @@ class CTransaction
 public:
     // Default transaction version.
     static const int32_t CURRENT_VERSION=2;
+
+    static const int32_t MAX_FLO_DATA_SIZE=1040;
 
     // The local variables are made const to prevent unintended modification
     // without updating the cached hash value. However, CTransaction is not

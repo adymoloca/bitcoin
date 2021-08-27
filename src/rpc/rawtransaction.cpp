@@ -436,6 +436,9 @@ static RPCHelpMan createrawtransaction()
 
     bool rbf = false;
 
+    CMutableTransaction rawTx = ConstructTransaction(request.params[0], request.params[1], request.params[2], rbf);
+
+
     rawTx.strFloData = "";
     if (request.params.size() > 4 && !request.params[4].isNull()) {
         rawTx.strFloData = request.params[4].get_str();
@@ -448,7 +451,6 @@ static RPCHelpMan createrawtransaction()
     if (!request.params[3].isNull()) {
         rbf = request.params[3].isTrue();
     }
-    CMutableTransaction rawTx = ConstructTransaction(request.params[0], request.params[1], request.params[2], rbf);
 
     return EncodeHexTx(CTransaction(rawTx));
 },
