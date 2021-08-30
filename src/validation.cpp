@@ -571,7 +571,7 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
         return state.Invalid(TxValidationResult::TX_NOT_STANDARD, reason);
 
     if (tx.strFloData.length() > CTransaction::MAX_FLO_DATA_SIZE) {
-        return state.DoS(0, false, REJECT_INVALID, "flo-data-too-large");
+        return state.Invalid(TxValidationResult::TX_NOT_STANDARD, "flo-data-too-large");
     }
     
     // Do not work on transactions that are too small.
@@ -2481,36 +2481,6 @@ bool CChainState::ActivateBestChainStep(BlockValidationState& state, CBlockIndex
 
     const CBlockIndex* pindexOldTip = m_chain.Tip();
     const CBlockIndex* pindexFork = m_chain.FindFork(pindexMostWork);
-
-    int nNlrLimit = gArgs.GetArg("-nlrlimit", Params().NoLargeReorgLimit());
-    if (nNlrLimit != 0 && !reconsider && !IsInitialBlockDownload() && pindexFork != nullptr
-        && chainActive.Tip()->nHeight - pindexFork->nHeight >= nNlrLimit) {
-        LogPrintf("%s: NLR triggered! current height=%d current hash=%s | fork height=%d fork hash=%s\n", __func__,
-                  pindexOldTip->nHeight, pindexOldTip->GetBlockHash().ToString(), pindexMostWork->nHeight,
-                  pindexMostWork->GetBlockHash().ToString());
-        CBlockIndex *pindexWalk = pindexMostWork;
-
-        // mark invalid_child from tip of fork to second block of fork
-        while (pindexWalk->nHeight != pindexFork->nHeight+2) {
-            pindexWalk = pindexWalk->pprev;
-            pindexWalk->nStatus |= BLOCK_FAILED_CHILD;
-            setDirtyBlockIndex.insert(pindexWalk);
-            setBlockIndexCandidates.erase(pindexWalk);
-        }
-
-        // mark invalid first block of fork
-        pindexWalk = pindexWalk->pprev;
-        pindexWalk->nStatus |= BLOCK_FAILED_VALID;
-        setDirtyBlockIndex.insert(pindexWalk);
-        setBlockIndexCandidates.erase(pindexWalk);
-
-        // sanity check
-        assert(pindexWalk->pprev == pindexFork);
-
-        fInvalidFound = true;
-        InvalidChainFound(pindexMostWork);
-        return true;
-    }
 
     // Disconnect active blocks which are no longer in the best chain.
     bool fBlocksDisconnected = false;
