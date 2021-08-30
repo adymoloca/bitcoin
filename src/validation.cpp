@@ -2482,6 +2482,8 @@ bool CChainState::ActivateBestChainStep(BlockValidationState& state, CBlockIndex
     const CBlockIndex* pindexOldTip = m_chain.Tip();
     const CBlockIndex* pindexFork = m_chain.FindFork(pindexMostWork);
 
+    int nNlrLimit = gArgs.GetArg("-nlrlimit", Params().NoLargeReorgLimit());
+
     // Disconnect active blocks which are no longer in the best chain.
     bool fBlocksDisconnected = false;
     DisconnectedBlockTransactions disconnectpool;
