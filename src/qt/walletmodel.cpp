@@ -206,7 +206,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
 
         auto& newTx = transaction.getWtx();
         std::string strFloData = transaction.getFloData();
-        newTx = m_wallet->createTransaction(vecSend, coinControl, strFloData, !wallet().privateKeysDisabled() /* sign */, nChangePosRet, nFeeRequired, error);
+        newTx = m_wallet->createTransaction(vecSend, coinControl, !wallet().privateKeysDisabled() /* sign */, nChangePosRet, nFeeRequired, strFloData, error);
         transaction.setTransactionFee(nFeeRequired);
         if (fSubtractFeeFromAmount && newTx)
             transaction.reassignAmounts(nChangePosRet);

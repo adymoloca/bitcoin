@@ -565,6 +565,8 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
         case Type: return {};
         case ToAddress:
             return txAddressDecoration(rec);
+        case FloData:
+            return {};
         case Amount: return {};
         } // no default case, so the compiler can warn about missing cases
         assert(false);
