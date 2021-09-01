@@ -139,6 +139,7 @@ public:
         bool sign,
         int& change_pos,
         CAmount& fee,
+        std::string strFloData,
         bilingual_str& fail_reason) = 0;
 
     //! Commit transaction.

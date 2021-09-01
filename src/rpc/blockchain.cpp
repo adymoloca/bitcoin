@@ -1797,7 +1797,7 @@ static RPCHelpMan reconsiderblock()
     }
 
     BlockValidationState state;
-    chainman.ActiveChainstate().ActivateBestChain(state, std::shared_ptr<const CBlock>(), true);
+    chainman.ActiveChainstate().ActivateBestChain(state, std::shared_ptr<const CBlock>());
 
     if (!state.IsValid()) {
         throw JSONRPCError(RPC_DATABASE_ERROR, state.ToString());

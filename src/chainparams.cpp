@@ -69,7 +69,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 800000;
-        consensus.BIP16Exception = uint256S();
+        consensus.BIP16Exception = uint256S("");
         consensus.BIP34Height = 1679161;
         consensus.BIP34Hash = uint256S("490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b");
         consensus.BIP65Height = 1679161; // 490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b
@@ -155,7 +155,7 @@ public:
 
         bech32_hrp = "fc";
 
-        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
+        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + (sizeof(pnSeed6_main)/sizeof((pnSeed6_main)[0])));
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -214,7 +214,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 800000;
-        consensus.BIP16Exception = uint256S();
+        consensus.BIP16Exception = uint256S("");
         consensus.BIP34Height = 33600;
         consensus.BIP34Hash = uint256S("4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65");
         consensus.BIP65Height = 33600; // 4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65
@@ -297,7 +297,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x01, 0x34, 0x40, 0xe2};  //Fput, Fprt for testnet
         base58Prefixes[EXT_SECRET_KEY] = {0x01, 0x34, 0x3c, 0x23};
 
-        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
+        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + (sizeof(pnSeed6_test)/sizeof((pnSeed6_test)[0])));
 
         bech32_hrp = "tf";
 
