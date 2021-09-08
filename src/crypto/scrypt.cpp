@@ -33,9 +33,6 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <openssl/sha.h>
-
-
 #if defined(USE_SSE2) && !defined(USE_SSE2_ALWAYS)
 #ifdef _MSC_VER
 // MSVC 64bit is unable to use inline asm
@@ -45,6 +42,9 @@
 #include <cpuid.h>
 #endif
 #endif
+
+#include <openssl/sha.h>
+
 
 static inline uint32_t be32dec(const void *pp)
 {
