@@ -254,9 +254,9 @@ inline void SerializeTransaction(const TxType& tx, Stream& s) {
         }
     }
     s << tx.nLockTime;
-    // if (tx.nVersion >= 2) {
-    //     s >> tx.strFloData;
-    // }s
+    if (tx.nVersion >= 2) {
+        s << tx.strFloData;
+    }
 }
 
 
