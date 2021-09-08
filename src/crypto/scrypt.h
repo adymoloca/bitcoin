@@ -1,5 +1,6 @@
-#ifndef SCRYPT_H
-#define SCRYPT_H
+#ifndef BITCOIN_CRYPTO_SCRYPT_H
+#define BITCOIN_CRYPTO_SCRYPT_H
+
 #include <stdlib.h>
 #include <stdint.h>
 
