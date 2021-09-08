@@ -6,11 +6,12 @@
 
 #include <primitives/block.h>
 
+#define BEGIN(a)            ((char*)&(a))
+
 #include <hash.h>
 #include <tinyformat.h>
 #include <crypto/scrypt.h>
 
-#define BEGIN(a)            ((char*)&(a))
 
 uint256 CBlockHeader::GetHash() const
 {

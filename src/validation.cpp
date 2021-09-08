@@ -2484,7 +2484,7 @@ bool CChainState::ActivateBestChainStep(BlockValidationState& state, CBlockIndex
 
     int nNlrLimit = gArgs.GetArg("-nlrlimit", Params().NoLargeReorgLimit());
     if (nNlrLimit != 0 && !reconsider && !IsInitialBlockDownload() && pindexFork != nullptr
-        && chainActive.Tip()->nHeight - pindexFork->nHeight >= nNlrLimit) {
+        && m_chain.Tip()->nHeight - pindexFork->nHeight >= nNlrLimit) {
         LogPrintf("%s: NLR triggered! current height=%d current hash=%s | fork height=%d fork hash=%s\n", __func__,
                   pindexOldTip->nHeight, pindexOldTip->GetBlockHash().ToString(), pindexMostWork->nHeight,
                   pindexMostWork->GetBlockHash().ToString());
@@ -2626,7 +2626,7 @@ static void LimitValidationInterfaceQueue() LOCKS_EXCLUDED(cs_main) {
     }
 }
 
-bool CChainState::ActivateBestChain(BlockValidationState& state, std::shared_ptr<const CBlock> pblock)
+bool CChainState::ActivateBestChain(BlockValidationState& state, std::shared_ptr<const CBlock> pblock, bool reconsider)
 {
     // Note that while we're often called here from ProcessNewBlock, this is
     // far from a guarantee. Things in the P2P/RPC will often end up calling
