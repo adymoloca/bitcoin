@@ -27,16 +27,18 @@
  * online backup system.
  */
 
+
 #if defined(USE_SSE2)
 
 #include <crypto/scrypt.h>
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 
-#include <emmintrin.h>
-
 #include <openssl/sha.h>
+
+#include <emmintrin.h>
 
 
 static inline void xor_salsa8_sse2(__m128i B[4], const __m128i Bx[4])
