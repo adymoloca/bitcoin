@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2021 The Bitcoin Core developers
+// Copyright (c) 2020-2021 The Flocoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -110,7 +110,7 @@ FUZZ_TARGET_INIT(banman, initialize_banman)
             banmap_t banmap_read;
             ban_man_read.GetBanned(banmap_read);
             // Assert temporarily disabled to allow the remainder of the fuzz test to run while a
-            // fix is being worked on. See https://github.com/bitcoin/bitcoin/pull/22517
+            // fix is being worked on. See https://github.com/flocoin/flocoin/pull/22517
             (void)(banmap == banmap_read);
         }
     }

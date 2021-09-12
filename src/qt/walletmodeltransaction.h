@@ -1,10 +1,10 @@
-// Copyright (c) 2011-2019 The Bitcoin Core developers
+// Copyright (c) 2011-2019 The Flocoin Core developers
 // Copyright (c) Flo Developers 2013-2021
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_WALLETMODELTRANSACTION_H
-#define BITCOIN_QT_WALLETMODELTRANSACTION_H
+#ifndef FLOCOIN_QT_WALLETMODELTRANSACTION_H
+#define FLOCOIN_QT_WALLETMODELTRANSACTION_H
 
 #include <primitives/transaction.h>
 #include <qt/sendcoinsrecipient.h>
@@ -47,4 +47,4 @@ private:
     std::string strFloData;
 };
 
-#endif // BITCOIN_QT_WALLETMODELTRANSACTION_H
+#endif // FLOCOIN_QT_WALLETMODELTRANSACTION_H

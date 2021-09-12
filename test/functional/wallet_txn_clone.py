@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2020 The Bitcoin Core developers
+# Copyright (c) 2014-2020 The Flocoin Core developers
 # Copyright (c) Flo Developers 2013-2021
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the wallet accounts properly when there are cloned transactions with malleated scriptsigs."""
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import FlocoinTestFramework
 from test_framework.util import (
     assert_equal,
 )
@@ -15,7 +15,7 @@ from test_framework.messages import (
 )
 
 
-class TxnMallTest(BitcoinTestFramework):
+class TxnMallTest(FlocoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 3
         self.supports_cli = False

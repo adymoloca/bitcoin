@@ -1,5 +1,5 @@
-#ifndef BITCOIN_CRYPTO_SCRYPT_H
-#define BITCOIN_CRYPTO_SCRYPT_H
+#ifndef FLOCOIN_CRYPTO_SCRYPT_H
+#define FLOCOIN_CRYPTO_SCRYPT_H
 
 #include <stdlib.h>
 #include <stdint.h>
