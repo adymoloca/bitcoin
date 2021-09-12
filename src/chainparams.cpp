@@ -20,7 +20,7 @@
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const std::string strFloData, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     CMutableTransaction txNew;
-    txNew.nVersion = 1;
+    txNew.nVersion = 2;
     txNew.vin.resize(1);
     txNew.vout.resize(1);
     txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
@@ -74,8 +74,8 @@ public:
         consensus.BIP34Hash = uint256S("490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b");
         consensus.BIP65Height = 1679161; // 490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b
         consensus.BIP66Height = 1679161; // 490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b
-        consensus.CSVHeight = 1679161; // 490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b
-        consensus.SegwitHeight = 1679161; // 490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b
+        consensus.CSVHeight = 0; // 490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b
+        consensus.SegwitHeight = 0; // 490a10507efe42b89104408787088b7c43310cc230310201b5f57dac6f513b8b
         consensus.MinBIP9WarningHeight = 1687225; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.fPowAllowMinDifficultyBlocks = false;
@@ -219,8 +219,8 @@ public:
         consensus.BIP34Hash = uint256S("4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65");
         consensus.BIP65Height = 33600; // 4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65
         consensus.BIP66Height = 33600; // 4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65
-        consensus.CSVHeight = 33600; // 4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65
-        consensus.SegwitHeight = 33600; // 4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65
+        consensus.CSVHeight = 0; // 4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65
+        consensus.SegwitHeight = 0; // 4ac31d938531317c065405a9b23478c8c99204ff17fc294cb09821e2c2b42e65
         consensus.MinBIP9WarningHeight = 34400; // segwit activation height + miner confirmation window
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetSpacing = 10 * 60;
@@ -452,7 +452,7 @@ public:
         consensus.BIP34Hash = uint256();
         consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in rpc activation tests)
         consensus.BIP66Height = 1251; // BIP66 activated on regtest (Used in rpc activation tests)
-        consensus.CSVHeight = 432; // CSV activated on regtest (Used in rpc activation tests)
+        consensus.CSVHeight = 0; // CSV activated on regtest (Used in rpc activation tests)
         consensus.SegwitHeight = 0; // SEGWIT is always activated on regtest unless overridden
         consensus.MinBIP9WarningHeight = 0;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
