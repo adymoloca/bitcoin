@@ -33,7 +33,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <openssl/sha.h>
+#include "openssl/sha.h"
 
 #if defined(USE_SSE2) && !defined(USE_SSE2_ALWAYS)
 #ifdef _MSC_VER

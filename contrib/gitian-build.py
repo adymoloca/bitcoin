@@ -27,13 +27,13 @@ def setup():
         programs += ['apt-cacher-ng', 'lxc', 'debootstrap']
     subprocess.check_call(['sudo', 'apt-get', 'install', '-qq'] + programs)
     if not os.path.isdir('gitian.sigs'):
-        subprocess.check_call(['git', 'clone', 'https://github.com/flocoin-core/gitian.sigs.git'])
+        subprocess.check_call(['git', 'clone', 'https://github.com/floblockchain/gitian.sigs.flo.git'])
     if not os.path.isdir('flocoin-detached-sigs'):
-        subprocess.check_call(['git', 'clone', 'https://github.com/flocoin-core/flocoin-detached-sigs.git'])
+        subprocess.check_call(['git', 'clone', 'https://github.com/floblockchain/flo-detached-sigs.git'])
     if not os.path.isdir('gitian-builder'):
         subprocess.check_call(['git', 'clone', 'https://github.com/devrandom/gitian-builder.git'])
     if not os.path.isdir('flocoin'):
-        subprocess.check_call(['git', 'clone', 'https://github.com/flocoin/flocoin.git'])
+        subprocess.check_call(['git', 'clone', 'https://github.com/floblockchain/flo.git'])
     os.chdir('gitian-builder')
     make_image_prog = ['bin/make-base-vm', '--suite', 'focal', '--arch', 'amd64']
     if args.docker:

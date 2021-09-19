@@ -129,8 +129,8 @@ public:
         nDefaultPort = 7312;
         nPruneAfterHeight = 100000;
         nNlrLimit = 100; // 100 * ~40s = ~66 minutes
-        m_assumed_blockchain_size = 420;
-        m_assumed_chain_state_size = 6;
+        m_assumed_blockchain_size = 840;
+        m_assumed_chain_state_size = 24;
 
         genesis = CreateGenesisBlock(1371488396, 1000112548, 0x1e0ffff0, 1, 100 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();

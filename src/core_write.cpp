@@ -223,6 +223,7 @@ void TxToUniv(const CTransaction& tx, const uint256& hashBlock, bool include_add
             o.pushKV("asm", ScriptToAsmStr(txin.scriptSig, true));
             o.pushKV("hex", HexStr(txin.scriptSig));
             in.pushKV("scriptSig", o);
+            in.pushKV("strFloData", (std::string)txin.strFloData)
         }
         if (!tx.vin[i].scriptWitness.IsNull()) {
             UniValue txinwitness(UniValue::VARR);

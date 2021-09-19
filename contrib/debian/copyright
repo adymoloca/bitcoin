@@ -2,7 +2,7 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Flocoin
 Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
  irc://#flocoin-core-dev@libera.chat
-Source: https://github.com/flocoin/flocoin
+Source: https://github.com/floblockchain/flo
 
 Files: *
 Copyright: 2009-2021, Flocoin Core Developers

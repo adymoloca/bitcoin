@@ -216,6 +216,7 @@ static RPCHelpMan generatetodescriptor()
             {"num_blocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated immediately."},
             {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated flocoin to."},
             {"maxtries", RPCArg::Type::NUM, RPCArg::Default{DEFAULT_MAX_TRIES}, "How many iterations to try."},
+            {"floData", RPCArg::Type::STR, RPCArg::Default{""}, "Coinbase transaction floData."},
         },
         RPCResult{
             RPCResult::Type::ARR, "", "hashes of blocks generated",

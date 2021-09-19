@@ -251,7 +251,7 @@ define $(package)_config_cmds
   export PKG_CONFIG_LIBDIR=$(host_prefix)/lib/pkgconfig && \
   export PKG_CONFIG_PATH=$(host_prefix)/share/pkgconfig && \
   cd qtbase && \
-  ./configure -top-level $($(package)_config_opts)
+  ./configure -top-level $($(package)_config_opts) --with-openssl
 endef
 
 define $(package)_build_cmds
