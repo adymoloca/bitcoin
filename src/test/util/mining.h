@@ -16,7 +16,7 @@ class CTxIn;
 struct NodeContext;
 
 /** Create a blockchain, starting from genesis */
-std::vector<std::shared_ptr<CBlock>> CreateBlockChain(size_t total_height, const CChainParams& params, std::string strFloData);
+std::vector<std::shared_ptr<CBlock>> CreateBlockChain(size_t total_height, const CChainParams& params);
 
 /** Returns the generated coin */
 CTxIn MineBlock(const NodeContext&, const CScript& coinbase_scriptPubKey);
